@@ -1,0 +1,457 @@
+#
+# NBPascal
+#   Pascal Language Grammar for Schliemann
+#
+# by Adil Aliyev, NEATS Group
+# E-mail: adil@neats.az
+#
+# EBNF form taken from: http://www.lrz-muenchen.de/~bernhard/Pascal-EBNF.html
+# Copyright(R) 2009, Baku/Azerbaijan
+#
+
+# definition of tokens
+TOKEN:pas_keyword:(
+    "absolute"i | "asm"i | 
+    "constructor"i | "destructor"i | 
+    "exports"i | "external"i | 
+    "implementation"i | "in"i | "inline"i | "interrupt"i | "interface"i |
+    "inherited"i  | "library"i | 
+    "object"i | 
+    "unit"i 
+)
+
+# keywords
+TOKEN:pas_begin:("begin"i)
+TOKEN:pas_end:("end"i)
+TOKEN:pas_uses:("uses"i)
+TOKEN:pas_program:("program"i)
+TOKEN:pas_var:("var"i)
+TOKEN:pas_while:("while"i)
+TOKEN:pas_with:("with"i)
+TOKEN:pas_until:("until"i)
+TOKEN:pas_repeat:("repeat"i)
+TOKEN:pas_array:("array"i)
+TOKEN:pas_record:("record"i)
+TOKEN:pas_function:("function"i)
+TOKEN:pas_procedure:("procedure"i)
+TOKEN:pas_for:("for"i)
+TOKEN:pas_todownto:("to"i | "downto"i)
+TOKEN:pas_do:("do"i)
+TOKEN:pas_if:("if"i)
+TOKEN:pas_then:("then"i)
+TOKEN:pas_else:("else"i)
+TOKEN:pas_const:("const"i)
+TOKEN:pas_case:("case"i)
+TOKEN:pas_label:("label"i)
+TOKEN:pas_type:("type"i)
+TOKEN:pas_packed:("packed"i)
+TOKEN:pas_of:("of"i)
+TOKEN:pas_file:("file"i)
+TOKEN:pas_set:("set"i)
+TOKEN:pas_goto:("goto"i)
+TOKEN:pas_forward:("forward"i)
+TOKEN:pas_operator_logical:("or"i | "xor"i | "and"i)
+TOKEN:pas_operator_bitshift:("shl"i | "shr"i | "div"i | "mod"i)
+TOKEN:pas_not:("not"i)
+TOKEN:pas_nil:("nil"i)
+TOKEN:pas_truefalse:("true"i | "false"i)
+TOKEN:pas_in:("in"i)
+TOKEN:pas_whitespace:( [" " "\t" "\n" "\r"]+ )
+TOKEN:pas_comment: ( "(*" - "*)" | "{" - "}" )
+TOKEN:pas_line_comment: ( "//" [^ "\n" "\r"]* )
+TOKEN:pas_token: ( "(" | ")" | "[" | "]" )
+TOKEN:pas_char: ( "\'" [^ "\'" "\n" "\r"] "\'" )
+TOKEN:pas_string: ( "\'" [^ "\'" "\n" "\r"]* "\'" )
+TOKEN:pas_separator: ( [";" ":" "."] )
+TOKEN:pas_letter: (["a"-"z" "A"-"Z" "_"] )
+TOKEN:pas_digit: ( ["0"-"9"] )
+TOKEN:pas_identifier:( ["a"-"z" "A"-"Z" "_"] ["a"-"z" "A"-"Z" "0"-"9" "_"]* )
+TOKEN:pas_number:( ["0" - "9"] ["0" - "9"]* )
+
+TOKEN:pas_operator: (
+    "=" | "<>" | ">" | "<" | ">=" | "<=" | "*" | "/" | "-" |
+    "+" | "," | "^" | "in" |
+    "div" | "mod" | "shr" | "shl" | "xor" | "or" | "and" | "not" | ":=" | ".."
+)
+
+# coloring of tokens
+COLOR:pas_keyword: {
+    color_name: "pas_keyword";
+    default_coloring: "keyword";
+}
+COLOR:pas_begin: {
+    color_name: "pas_begin";
+    default_coloring: "keyword";
+}
+COLOR:pas_end: {
+    color_name: "pas_end";
+    default_coloring: "keyword";
+}
+COLOR:pas_uses: {
+    color_name: "pas_uses";
+    default_coloring: "keyword";
+}
+COLOR:pas_program: {
+    color_name: "pas_program";
+    default_coloring: "keyword";
+}
+COLOR:pas_var: {
+    color_name: "pas_var";
+    default_coloring: "keyword";
+}
+COLOR:pas_while: {
+    color_name: "pas_while";
+    default_coloring: "keyword";
+}
+COLOR:pas_with: {
+    color_name: "pas_with";
+    default_coloring: "keyword";
+}
+COLOR:pas_until: {
+    color_name: "pas_until";
+    default_coloring: "keyword";
+}
+COLOR:pas_repeat: {
+    color_name: "pas_repeat";
+    default_coloring: "keyword";
+}
+COLOR:pas_array: {
+    color_name: "pas_array";
+    default_coloring: "keyword";
+}
+COLOR:pas_record: {
+    color_name: "pas_record";
+    default_coloring: "keyword";
+}
+COLOR:pas_function: {
+    color_name: "pas_function";
+    default_coloring: "keyword";
+}
+COLOR:pas_procedure: {
+    color_name: "pas_procedure";
+    default_coloring: "keyword";
+}
+COLOR:pas_for: {
+    color_name: "pas_for";
+    default_coloring: "keyword";
+}
+COLOR:pas_todownto: {
+    color_name: "pas_todownto";
+    default_coloring: "keyword";
+}
+COLOR:pas_do: {
+    color_name: "pas_do";
+    default_coloring: "keyword";
+}
+COLOR:pas_if: {
+    color_name: "pas_if";
+    default_coloring: "keyword";
+}
+COLOR:pas_then: {
+    color_name: "pas_then";
+    default_coloring: "keyword";
+}
+COLOR:pas_else: {
+    color_name: "pas_else";
+    default_coloring: "keyword";
+}
+COLOR:pas_const: {
+    color_name: "pas_const";
+    default_coloring: "keyword";
+}
+COLOR:pas_case: {
+    color_name: "pas_case";
+    default_coloring: "keyword";
+}
+COLOR:pas_label: {
+    color_name: "pas_label";
+    default_coloring: "keyword";
+}
+COLOR:pas_type: {
+    color_name: "pas_type";
+    default_coloring: "keyword";
+}
+COLOR:pas_packed: {
+    color_name: "pas_packed";
+    default_coloring: "keyword";
+}
+COLOR:pas_of: {
+    color_name: "pas_of";
+    default_coloring: "keyword";
+}
+COLOR:pas_file: {
+    color_name: "pas_file";
+    default_coloring: "keyword";
+}
+COLOR:pas_set: {
+    color_name: "pas_set";
+    default_coloring: "keyword";
+}
+COLOR:pas_goto: {
+    color_name: "pas_goto";
+    default_coloring: "keyword";
+}
+COLOR:pas_forward: {
+    color_name: "pas_forward";
+    default_coloring: "keyword";
+}
+COLOR:pas_operator_logical: {
+    color_name: "pas_operator_logical";
+    default_coloring: "keyword";
+}
+COLOR:pas_operator_bitshift: {
+    color_name: "pas_operator_bitshift";
+    default_coloring: "keyword";
+}
+COLOR:pas_not: {
+    color_name: "pas_not";
+    default_coloring: "keyword";
+}
+COLOR:pas_nil: {
+    color_name: "pas_nil";
+    default_coloring: "keyword";
+}
+COLOR:pas_truefalse: {
+    color_name: "pas_truefalse";
+    default_coloring: "keyword";
+}
+COLOR:pas_in: {
+    color_name: "pas_in";
+    default_coloring: "keyword";
+}
+COLOR:pas_line_comment: {
+ default_coloring: "comment";
+}
+COLOR:pas_comment: {
+ default_coloring: "comment";
+}
+
+# parser should ignore whitespaces
+SKIP:pas_whitespace
+SKIP:pas_comment
+SKIP:pas_line_comment
+
+
+# definition of grammar
+
+# Programs and Blocks
+S = [ProgramHeading] [Uses] Block ".";
+ProgramHeading = <pas_program> ProgramName [ ProgramHeadingArguments ] ";";
+ProgramHeadingArguments = "(" IdentifierList ")";
+ProgramName = Identifier;
+Uses = <pas_uses> Identifier ("," Identifier)* ";";
+
+Block = DeclarationPart StatementPart;
+DeclarationPart = ([LabelDeclarationPart] | [ConstantDefinitionPart] |
+                  [TypeDefinitionPart] | [VariableDeclarationPart] |
+                  ProcedureAndFunctionDeclarationPart)*;
+LabelDeclarationPart = <pas_label> Label ("," Label)* ";";
+ConstantDefinitionPart = <pas_const> ConstantDefinition ";" (ConstantDefinition ";")*;
+ConstantDefinition = Identifier [":" Type] "=" (Constant | ArrayConstant) ;
+TypeDefinitionPart = <pas_type> TypeDefinition ";" (TypeDefinition ";")*;
+TypeDefinition = Identifier "=" Type;
+VariableDeclarationPart = <pas_var> VariableDeclaration ";" (VariableDeclaration ";")*;
+VariableDeclaration = IdentifierList ":" Type;
+ProcedureAndFunctionDeclarationPart = ((ProcedureDeclaration | FunctionDeclaration) ";")*;
+ProcedureDeclaration = ProcedureHeading ";" [Directive] ProcedureBody;
+ProcedureBody = Block;
+FunctionDeclaration = FunctionHeading ";" [Directive] FunctionBody;
+FunctionBody = Block;
+Directive = <pas_forward>; # | CompilerDefinedDirectives;
+StatementPart = <pas_begin> StatementSequence <pas_end>;
+
+
+# Procedure and Function Definitions
+
+ProcedureHeading = <pas_procedure> Identifier [FormalParameterList];
+FunctionHeading = <pas_function> Identifier [FormalParameterList] ":" ResultType;
+ResultType = TypeIdentifier;
+FormalParameterList = "(" FormalParameterSection (";" FormalParameterSection)* ")";
+FormalParameterSection = ValueParameterSection | VariableParameterSection |
+                         ProcedureParameterSection | FunctionParameterSection;
+ValueParameterSection = IdentifierList ":" ParameterType;
+VariableParameterSection = <pas_var> IdentifierList ":" ParameterType;
+ProcedureParameterSection = ProcedureHeading;
+FunctionParameterSection = FunctionHeading;
+ParameterType = TypeIdentifier | ConformantArraySchema;
+ConformantArraySchema = PackedConformantArraySchema | UnpackedConformantArraySchema;
+PackedConformantArraySchema = <pas_packed> <pas_array> "[" BoundSpecification "]" <pas_of> TypeIdentifier;
+UnpackedConformantArraySchema = <pas_array> "[" BoundSpecification (";" BoundSpecification)* "]"
+                                <pas_of> (TypeIdentifier | ConformantArraySchema);
+BoundSpecification = Identifier ".." Identifier ":" OrdinalTypeIdentifier;
+OrdinalTypeIdentifier = TypeIdentifier;
+
+
+# Statements
+StatementSequence = Statement (";" Statement)*;
+Statement = [Label ":"] (SimpleStatement | StructuredStatement | StatementPart);
+SimpleStatement = [AssigmentStatement | ProcedureStatement | GotoStatement];
+AssigmentStatement = Variable ":=" Expression;
+ProcedureStatement = ProcedureIdentifier ["(" Expression ("," Expression)* ")"];
+GotoStatement = <pas_goto> Label;
+CaseLabelList = Constant ("," Constant)*;
+StructuredStatement = WhileStatement | RepeatStatement | ForStatement |
+                      IfStatement | CaseStatement | WithStatement;
+WhileStatement = <pas_while> Expression <pas_do> Statement;
+RepeatStatement = <pas_repeat> StatementSequence <pas_until> Expression;
+ForStatement = <pas_for> Identifier ":=" Expression
+                <pas_todownto> Expression <pas_do> Statement;
+IfStatement = <pas_if> Expression <pas_then> Statement [ <pas_else> Statement];
+CaseStatement = <pas_case> Expression <pas_of>
+                CaseLimb ( ";" CaseLimb )* [ ";" ]
+                <pas_end>;
+CaseLimb = CaseLabelList ":" Statement;
+CaseLabelList = Constant ( "," Constant )*;
+WithStatement = <pas_with> RecordVariable ( "," RecordVariable )* <pas_do> Statement;
+
+# Expressions
+Expression = [Sign] LogicalExpression;
+LogicalExpression = EqualityExpression (LogicalOperator EqualityExpression)*;
+LogicalOperator = <pas_operator_logical>;
+EqualityExpression = RelationalExpression [ EqualityOperator RelationalExpression ];
+EqualityOperator = "=" | "<>";
+RelationalExpression = BitShiftExpression [ RelationalOperator BitShiftExpression ];
+RelationalOperator = "<" | "<=" | ">" | ">=";
+BitShiftExpression = AdditiveExpression ( BitShiftOperator AdditiveExpression )*;
+BitShiftOperator = <pas_operator_bitshift>;
+AdditiveExpression = MultiplicativeExpression ( AdditiveOperator MultiplicativeExpression )*;
+AdditiveOperator = "+" | "-" ;
+MultiplicativeExpression = UnaryExpression ( MultiplicativeOperator UnaryExpression )*;
+MultiplicativeOperator = "*" | "/" ;
+UnaryExpression =  Factor | UnaryOperator UnaryExpression;
+UnaryOperator = <pas_not> | "-" ;
+Factor = Number | String | <pas_nil> | Set | "(" Expression ")" | <pas_truefalse> |
+         FunctionExpression | Variable;
+FunctionExpression = Identifier "(" Expression ("," Expression)* ")";
+Variable =  ComponentVariable | ReferencedVariable | Identifier;
+ComponentVariable = IndexedVariable | FieldDesignator | ReferencedVariable;
+IndexedVariable = Identifier "[" ExpressionList "]" ["." Variable];
+FieldDesignator = Identifier "." Identifier;
+Set = "[" ElementList "]";
+ElementList = [ Expression ( "," Expression )* ];
+
+# Types
+Type = SimpleType | StructuredType | PointerType | TypeIdentifier;
+SimpleType = SubrangeType | EnumeratedType;
+EnumeratedType = "(" IdentifierList ")";
+SubrangeType = LowerBound ".." UpperBound;
+LowerBound = Constant;
+UpperBound = Constant;
+StructuredType = [ <pas_packed> ] UnpackedStructuredType;
+UnpackedStructuredType = ArrayType | RecordType | SetType | FileType;
+ArrayType =
+    <pas_array> "[" IndexType ("," IndexType)* "]" <pas_of> ElementType;
+IndexType = SimpleType;
+ElementType = Type;
+RecordType = <pas_record> [FixedPart] <pas_end>;
+SetType = <pas_set> <pas_of> BaseType;
+BaseType = Type;
+FileType = <pas_file> <pas_of> FileComponentType;
+FileComponentType = Type;
+PointerType = "^" TypeIdentifier;
+
+# Record Fields
+# TODO Record
+#FieldList = [ (FixedPart (";" VariantPart)* | VariantPart) [ ";" ] ];
+FixedPart = RecordSection (";" RecordSection [";"])*;
+RecordSection = IdentifierList ":" Type;
+
+#FieldList = [ (FixedPart (";" VariantPart)* | VariantPart) [ ";" ] ];
+#FixedPart = RecordSection (";" RecordSection)*;
+#RecordSection = IdentifierList ":" Type;
+
+
+#VariantPart =
+#    "case" TagField TypeIdentifier "of" Variant (";" Variant)*;
+#TagField = [ Identifier ":" ];
+#Variant = CaseLabelList ":" "(" FieldList ")";
+# /TODO Record
+
+
+# Variable and Identifier Categories
+
+Identifier = <pas_identifier> | <pas_letter>;
+ConstantIdentifier = Identifier;
+TypeIdentifier = Identifier;
+ProcedureIdentifier = Identifier;
+ReferencedVariable = PointerVariable "^";
+RecordVariable = Identifier;
+PointerVariable = Identifier;
+
+
+# Low Level Definitions
+
+IntegerNumber = DigitSequence;
+DigitSequence = [ Sign ] UnsignedDigitSequence;
+Sign = "+" | "-";
+Constant = [ Sign ] (ConstantIdentifier | Number) | String;
+Number = IntegerNumber | RealNumber;
+RealNumber = DigitSequence "." [ DigitSequence ] [ ScaleFactor ] |
+             DigitSequence ScaleFactor;
+ScaleFactor = ("E" | "e") [ Sign ] DigitSequence;
+String = <pas_char> | <pas_string>;
+UnsignedDigitSequence = <pas_number> | <pas_digit>;
+IdentifierList = Identifier ("," Identifier)*;
+
+Label = IntegerNumber;
+ExpressionList = Expression ("," Expression )*;
+ArrayConstant = "(" Constant ("," Constant)* ")";
+
+
+
+
+
+# code folding
+
+
+
+# brace completion
+COMPLETE "(:)"
+COMPLETE "{:}"
+COMPLETE "(*:*)"
+COMPLETE "':'"
+COMPLETE "[:]"
+
+COMPLETION:pas_separator: {
+    confirmChars:";.";
+}
+
+FOLD:pas_comment: {
+    expand_type_action_name:"Expand Comments";
+    collapse_type_action_name:"Collapse Comments";
+}
+FOLD:pas_line_comment: {
+    expand_type_action_name:"Expand Comments";
+    collapse_type_action_name:"Collapse Comments";
+}
+
+
+# indentation support
+INDENT "(:)"
+INDENT "':'"
+INDENT "[:]"
+INDENT "begin:end"
+INDENT "record:end"
+
+
+COMPLETION:pas_separator: {
+    confirmChars:";.";
+}
+
+# code completion
+COMPLETION:pas_keyword, pas_token, pas_whitespace: {
+    text1:"begin";
+    text2:"end";
+}
+
+#NAVIGATOR:FunctionBlock: {
+#    display_name: nbmpascal.Pascal.functionName;
+#    icon: "org/netbeans/modules/languages/resources/method.gif";
+#    isLeaf: "true";
+#}
+
+#NAVIGATOR:ProcedureBlock: {
+#    display_name: nbmpascal.Pascal.procedureName;
+#    icon: "org/netbeans/modules/languages/resources/method.gif";
+#    isLeaf: "true";
+#}
